@@ -1,4 +1,5 @@
 import { Approach } from "@/components/home/approach";
+import { Features } from "@/components/home/features";
 import { Hero } from "@/components/home/hero";
 import { Navbar } from "@/components/ui/navbar";
 
@@ -8,6 +9,7 @@ export default function Home() {
       <Navbar/>
       <Hero/>
       <Approach/>
+      <Features/>
     </div>
   );
 }

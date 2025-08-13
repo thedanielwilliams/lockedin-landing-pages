@@ -15,7 +15,7 @@ export function Header({ title, tag, description }: HeaderProps) {
           {title}
         </h2>
         {description && (
-          <p className="text-[#69666E] text-lg md:text-xl font-semibold text-center my-3">
+          <p className="text-[#69666E] text-lg md:text-xl text-center my-3">
             {description}
           </p>
         )}

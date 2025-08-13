@@ -1,4 +1,4 @@
-export default function RiP2pLine(  props: React.SVGProps<SVGSVGElement>) {
+export function RiP2pLine(  props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
