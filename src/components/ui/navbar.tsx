@@ -6,7 +6,7 @@ export function Navbar() {
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-black text-lg font-bold">LockedIn</div>
 
-        <div className="flex space-x-10 max-lg:hidden">
+        <div className="relative left-10 flex space-x-10 max-lg:hidden">
           <Link
             href="/"
             className="text-[#222221] hover:text-[#72D560] squiggly-underline "
