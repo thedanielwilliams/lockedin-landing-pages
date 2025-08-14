@@ -1,10 +1,113 @@
+import Link from "next/link";
+import { ContactForm } from "./contact-form";
+import { Twitter } from "../icons/twitter";
+import { Youtube } from "../icons/youtube";
+import { Instagram } from "../icons/instagram";
+import { Facebook } from "../icons/facebook";
+
+const socialLinks = [
+  { name: "Facebook", url: "#", icon: Facebook },
+  { name: "Instagram", url: "#", icon: Instagram},
+  { name: "Youtube", url: "#", icon: Youtube },
+  { name: "Twitter", url: "#", icon: Twitter},
+];
+
 export function Footer() {
   return (
-    <footer className="mt-16 bg-[#72D560] py-8 md:py-12">
-      <div className="max-w-7xl mx-auto px-4">
-        <p className="text-center text-[#69666E] text-sm">
-          © {new Date().getFullYear()} LockedIn. All rights reserved.
-        </p>
+    <footer className="mt-16 bg-[#72D560] py-8 md:py-12 lg:py-16 px-5 md:px-16 lg:px-24">
+      <div className="w-full flex flex-col lg:flex-row gap-8 lg:gap-24">
+        <ContactForm />
+
+        <div className="w-full flex flex-col items-start justify-between">
+          <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-16">
+            <div>
+              <h3 className="text-[#FFC727] font-semibold mb-3 text-xs">
+                INFO
+              </h3>
+              <div className="flex flex-col space-y-2">
+                <Link
+                  href="#"
+                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
+                >
+                  Company
+                </Link>
+                <Link
+                  href="#"
+                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
+                >
+                  Products
+                </Link>
+                <Link
+                  href="#"
+                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
+                >
+                  Engineering
+                </Link>
+                <Link
+                  href="#"
+                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
+                >
+                  Services
+                </Link>
+                <Link
+                  href="#"
+                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
+                >
+                  Productions
+                </Link>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-[#FFC727] font-semibold mb-3 text-xs uppercase">
+                Contact us
+              </h3>
+              <div className="flex flex-col space-y-2">
+                <Link
+                  href="#"
+                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
+                >
+                  +1 (999) 999-99-99
+                </Link>
+                <Link
+                  href="#"
+                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
+                >
+                  hello@logoipsum.com
+                </Link>
+                <Link
+                  href="#"
+                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
+                >
+                  London
+                </Link>
+              </div>
+            </div>
+
+            <div className="text-black text-lg lg:text-2xl font-semibold lg:ml-auto">LockedIn</div>
+          </div>
+
+          {/* SOCIALS */}
+          <div className="w-full flex items-center justify-between">
+            <div>
+              {socialLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.url}
+                  className="inline-flex items-center p-3 mr-5 gap-2 text-xs border border-[#222221]/10 hover:bg-[#222221]/10 transition-all duration-300 rounded-full cursor-pointer"
+                >
+                  <link.icon color="#222221" fontSize={20} />
+                </Link>
+              ))}
+            </div>
+
+            <div>
+              <p className="text-xs text-[#151514] opacity-40">
+                LockedIN © 2025 — Copyright
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </footer>
   );
