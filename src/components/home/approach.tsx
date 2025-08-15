@@ -63,14 +63,16 @@ export function Approach() {
           ))}
         </div>
 
-        <div className="w-full bg-[#72D560] h-[691px] rounded-3xl p-5 md:p-12 overflow-hidden">
-          <Image
+        <div className="w-full bg-[#72D560] h-auto rounded-3xl p-5 py-2.5 md:py-4 md:p-8 overflow-hidden">
+          <div className="w-full relative">
+            <Image
             src="/focus.png"
             alt="Focus"
-            width={500}
+            width={1200}
             height={864}
-            className="relative top-7 w-full object-cover h-auto rounded-3xl mb-8"
+            className="relative top-8 w-full object-contain h-auto rounded-3xl"
           />
+          </div>
         </div>
       </div>
     </div>

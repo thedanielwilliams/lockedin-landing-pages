@@ -1,7 +1,7 @@
 "use client"
 import { Header } from "../ui/header";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from 'next/image';
 import { FlowbiteArrowRight } from "../icons/flowbiteArrowRight";
 
@@ -45,18 +45,19 @@ const steps = [
 ];
 
 export function TargetAudience() {
-    const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [direction, setDirection] = useState(1);
 
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setCurrentStep((prevStep) => (prevStep + 1) % steps.length);
-      }, 5000);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentStep((prevStep) => (prevStep + 1) % steps.length);
+    }, 5000);
 
-      return () => clearInterval(interval);
-    }, []);
+    return () => clearInterval(interval);
+  }, []);
 
-    const currentStepData = steps[currentStep];
-    
+  const currentStepData = steps[currentStep];
+
   return (
     <div className="w-full mt-8" id="howitworks">
       <Header
@@ -74,35 +75,58 @@ export function TargetAudience() {
               <motion.div
                 key={step.id}
                 className="mt-6 md:mt-9 flex items-center gap-2 relative"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: currentStep === index ? 1 : 0.5 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{
+                  opacity: currentStep === index ? 1 : 0.5,
+                  x: 0,
+                }}
+                transition={{
+                  duration: 0.5,
+                  ease: "easeInOut",
+                }}
+                onClick={() => {
+                  setDirection(currentStep > index ? -1 : 1);
+                  setCurrentStep(index);
+                }}
               >
                 {/* Arrow indicator */}
                 {currentStep === index && (
-                  <div className="absolute -left-[1px]">
+                  <motion.div
+                    className="absolute -left-[1px]"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 15,
+                    }}
+                  >
                     <FlowbiteArrowRight color="#FFC727" fontSize={20} />
-                  </div>
+                  </motion.div>
                 )}
-                <p
+                <motion.p
+                  whileHover={{ scale: currentStep === index ? 1 : 1.05 }}
                   className={`font-semibold text-2xl ml-6 ${
                     currentStep === index ? "text-[#222221]" : "text-[#B1AEB7]"
                   }`}
                 >
                   {step.title}
-                </p>
+                </motion.p>
               </motion.div>
             ))}
           </div>
 
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="sync" custom={direction}>
             <div className="w-[480px] h-[320px] bg-[#72D560] p-3 rounded-2xl">
               <motion.div
                 key={currentStepData.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.85 }}
+                initial={{ opacity: 0, x: 100 * direction }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 * direction }}
+                transition={{
+                  duration: 0.2,
+                  ease: [0.32, 0.72, 0, 1],
+                }}
                 className="relative w-[480px] h-[320px] rounded-2xl"
               >
                 <Image
@@ -123,10 +147,13 @@ export function TargetAudience() {
                 <motion.p
                   key={currentStepData.id}
                   className="step-bottom-text mt-6 text-[#222221] text-2xl font-medium"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.8 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{
+                    duration: 0.5,
+                    ease: "easeInOut",
+                  }}
                 >
                   {currentStepData.rightText}
                 </motion.p>

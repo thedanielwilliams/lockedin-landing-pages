@@ -15,7 +15,7 @@ const socialLinks = [
 export function Footer() {
   return (
     <footer className="mt-16 bg-[#72D560] py-8 md:py-12 lg:py-16 px-5 md:px-16 lg:px-24">
-      <div className="w-full flex flex-col lg:flex-row gap-8 lg:gap-24">
+      <div className="w-full flex flex-col lg:flex-row gap-8 lg:gap-28">
         <ContactForm />
 
         <div className="w-full flex flex-col items-start justify-between">

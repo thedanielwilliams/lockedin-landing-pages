@@ -4,7 +4,7 @@ export function Navbar() {
   return (
     <nav className="bg-[#F7F7F7] w-[85vw] mx-auto border border-[#ECECEC] p-4 rounded-2xl mt-5 md:mt-7">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-black text-lg font-bold">LockedIn</div>
+        <div className="text-black text-lg md:text-xl font-semibold">LockedIn</div>
 
         <div className="relative left-10 flex space-x-10 max-lg:hidden">
           <Link
