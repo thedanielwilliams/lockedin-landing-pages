@@ -21,7 +21,7 @@ export function Navbar() {
 
           <div className="relative left-10 flex space-x-10 max-lg:hidden">
             <Link
-              href="/"
+              href="/#features"
               className="text-[#222221] hover:text-[#72D560] squiggly-underline "
             >
               Features
@@ -95,7 +95,7 @@ export function Navbar() {
               {/* Navigation Links */}
               <div className="flex flex-col text-center space-y-8 px-8 mt-16">
                 <Link
-                  href="/"
+                  href="/#features"
                   onClick={toggleMenu}
                   className="text-black text-2xl font-medium hover:opacity-80 transition-opacity transform hover:translate-x-1 duration-200"
                 >
