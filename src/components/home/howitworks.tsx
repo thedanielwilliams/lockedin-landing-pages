@@ -31,7 +31,6 @@ const data = [
 
 export function HowItWorks() {
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const [dragStart, setDragStart] = useState(null);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -39,30 +38,6 @@ export function HowItWorks() {
 		}, 5000);
 		return () => clearInterval(interval);
 	}, []);
-
-	const handleDragStart = (e: any) => {
-		setDragStart(e.clientX || e.touches[0].clientX);
-	};
-
-	const handleDragEnd = (e: any) => {
-		if (!dragStart) return;
-
-		const dragEnd = e.clientX || e.changedTouches[0].clientX;
-		const dragDistance = dragStart - dragEnd;
-		const threshold = 50; // minimum swipe distance
-
-		if (Math.abs(dragDistance) > threshold) {
-			if (dragDistance > 0) {
-				// Swiped left, go to next
-				setCurrentIndex((prev) => (prev + 1) % data.length);
-			} else {
-				// Swiped right, go to previous
-				setCurrentIndex((prev) => (prev - 1 + data.length) % data.length);
-			}
-		}
-
-		setDragStart(null);
-	};
 
 	return (
 		<div className="w-full" id="howitworks">
@@ -72,7 +47,7 @@ export function HowItWorks() {
 				description="From solo to paired productivity in four simple steps."
 			/>
 
-			<div className="w-[93%] mx-auto py-12">
+			<div className="w-[93%] mx-auto py-12 overflow-x-auto">
 				<div className="w-full hidden md:flex flex-col md:flex-row justify-between items-start">
 					{data.map((item) => (
 						<div
@@ -115,12 +90,7 @@ export function HowItWorks() {
 
 				{/* Mobile/Tab Slider View */}
 				<div
-					onMouseDown={handleDragStart}
-					onMouseUp={handleDragEnd}
-					onTouchStart={handleDragStart}
-					onTouchEnd={handleDragEnd}
-					style={{ userSelect: "none" }}
-					className="md:hidden w-full relative overflow-hidden h-[260px]"
+					className="md:hidden w-full relative overflow-x-auto overflow-y-hidden h-[260px]"
 				>
 					<AnimatePresence initial={false}>
 						<motion.div

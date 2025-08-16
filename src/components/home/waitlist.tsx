@@ -1,59 +1,93 @@
 "use client";
 import { useState } from "react";
 import { useWaitlistModal } from "./waitlist-provider";
-import { X } from "lucide-react";
+import { Loader2, X } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
+
+	// Floating label input component
+	const FloatingLabelInput = ({
+    label,
+    type,
+    value,
+    onChange,
+    required,
+    id,
+  }: {
+    label: string;
+    type: string;
+    value: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    required?: boolean;
+    id: string;
+  }) => (
+    <div className="relative">
+      <input
+        id={id}
+        type={type}
+        value={value}
+        onChange={onChange}
+        required={required}
+        className={`peer w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-[#72D560] text-sm placeholder-transparent placeholder:text-sm`}
+        placeholder=""
+        autoComplete="off"
+      />
+      <label
+        htmlFor={id}
+        className={`
+        absolute left-3 px-1 bg-white pointer-events-none transition-all duration-200
+        ${
+          value
+            ? "-top-3 text-xs text-[#72D560]"
+            : "top-2 text-sm text-gray-400 peer-focus:-top-3 peer-focus:text-xs peer-focus:text-[#72D560]"
+        }
+      `}
+      >
+        {label}
+      </label>
+    </div>
+  );
 
 export const Waitlist = () => {
+    const [loading, setLoading] = useState(false);
 	const [waitlistName, setWaitlistName] = useState("");
 	const [waitlistEmail, setWaitlistEmail] = useState("");
 	const { closeModal, openModal, isWaitlistOpen } = useWaitlistModal();
 
-	// Floating label input component
-	const FloatingLabelInput = ({
-		label,
-		type,
-		value,
-		onChange,
-		required,
-		id,
-	}: {
-		label: string;
-		type: string;
-		value: string;
-		onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-		required?: boolean;
-		id: string;
-	}) => (
-		<div className="relative">
-			<input
-				id={id}
-				type={type}
-				value={value}
-				onChange={onChange}
-				required={required}
-				className={`peer w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-[#72D560] text-sm placeholder-transparent placeholder:text-sm`}
-				placeholder={label}
-				autoComplete="off"
-			/>
-			<label
-				htmlFor={id}
-				className={`
-                absolute left-3 top-2 text-gray-400 text-sm transition-all
-                peer-placeholder-shown:top-2 
-                peer-placeholder-shown:text-sm
-                peer-focus:-top-3 peer-focus:text-xs peer-focus:text-[#72D560]
-                bg-white px-1 pointer-events-none
-                ${value ? "-top-3 text-xs text-[#72D560]" : ""}
-            `}
-			>
-				{label}
-			</label>
-		</div>
-	);
-
-	const handleWaitlistSubmit = (e: React.FormEvent) => {
+	const handleWaitlistSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		// Handle waitlist submission here (e.g., API call)
+        setLoading(true);
+        // Basic validation
+        if (!waitlistName.trim() || !waitlistEmail.trim()) {
+            toast.error("Please enter your name and email.");
+            return;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(waitlistEmail)) {
+            toast.error("Please enter a valid email address.");
+            return;
+        }
+
+        try {
+            await axios.post("https://locked-in-3wy9.onrender.com/waitlist", {
+                name: waitlistName,
+                email: waitlistEmail,
+            });
+        } catch (err: any) {
+            const message =
+              err.response?.data?.message ||
+              err.response?.data?.detail ||
+              err.response?.data?.error ||
+              err.message ||
+              "An error occurred. Please try again.";
+            toast.error(message);
+            return;
+        }
+        finally {
+            setLoading(false);
+        }
+        
+        toast.success("You have successfully joined the waitlist!");
 		closeModal();
 		openModal("success");
 		setWaitlistName("");
@@ -62,9 +96,10 @@ export const Waitlist = () => {
 
 	return (
 		<>
+        <Toaster containerClassName="text-sm"/>
 			{isWaitlistOpen && (
 				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 bg-opacity-40">
-					<div className="bg-white rounded-2xl p-8 md:py-12 w-full max-w-md shadow-lg relative">
+					<div className="bg-white w-[90%] mx-auto rounded-2xl p-8 md:py-12 max-w-md shadow-lg relative">
 						<button
 							type="button"
 							onClick={closeModal}
@@ -102,9 +137,10 @@ export const Waitlist = () => {
 							/>
 							<button
 								type="submit"
-								className="bg-[#72D560] py-2 rounded-lg hover:opacity-90 transition-all"
+								className="bg-[#72D560] flex items-center justify-center text-center text-sm font-medium gap-2 py-2 rounded-lg hover:opacity-90 transition-all"
 							>
-								Submit
+								{loading ? "Submitting..." : "Join Waitlist"}
+                                {loading && <Loader2 size={18} className="animate-spin"/>}
 							</button>
 						</form>
 					</div>
