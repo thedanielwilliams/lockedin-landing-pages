@@ -54,6 +54,7 @@ export function ContactForm() {
 			</div>
 			<button
 				type="submit"
+				disabled
 				className="w-full mt-1 md:mt-3 bg-[#222221] text-white text-sm font-semibold py-3 hover:opacity-90 transition-all duration-200 cursor-pointer rounded-xl"
 			>
 				Send a request
