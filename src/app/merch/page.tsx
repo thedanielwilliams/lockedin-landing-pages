@@ -1,8 +1,3 @@
-
 export default function Merch() {
-  return (
-    <div className="">
-      
-    </div>
-  );
+	return <div className=""></div>;
 }

@@ -7,15 +7,15 @@ import { Footer } from "@/components/ui/footer";
 import { Navbar } from "@/components/ui/navbar";
 
 export default function Home() {
-  return (
-    <div className="w-full h-screen bg-[#F0F0F0] overflow-y-auto scroll-smooth">
-      <Navbar/>
-      <Hero/>
-      <Approach/>
-      <Features/>
-      <HowItWorks/>
-      <TargetAudience/>
-      <Footer/>
-    </div>
-  );
+	return (
+		<div className="w-full h-screen bg-[#F0F0F0] overflow-y-auto scroll-smooth">
+			<Navbar />
+			<Hero />
+			<Approach />
+			<Features />
+			<HowItWorks />
+			<TargetAudience />
+			<Footer />
+		</div>
+	);
 }

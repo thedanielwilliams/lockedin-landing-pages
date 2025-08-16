@@ -2,7 +2,6 @@
 @import url("https://fonts.cdnfonts.com/css/general-sans");
 @import "tailwindcss";
 
-
 .font-bricolage {
 	font-family: "Bricolage Grotesque", sans-serif;
 	font-optical-sizing: auto;
@@ -12,14 +11,14 @@
 	font-optical-sizing: auto;
 }
 .svg-crisp {
-  shape-rendering: crispEdges;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
+	shape-rendering: crispEdges;
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: crisp-edges;
+	image-rendering: pixelated;
 }
 
 .svg-smooth {
-  shape-rendering: geometricPrecision;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: auto;
+	shape-rendering: geometricPrecision;
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: auto;
 }
