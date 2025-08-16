@@ -31,26 +31,46 @@ const data = [
 
 export function HowItWorks() {
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const handleDragEnd = (
-		event: MouseEvent | TouchEvent | PointerEvent,
-		info: PanInfo
-	) => {
-		const swipeThreshold = 50;
-		if (info.offset.x > swipeThreshold) {
-		// Swiped right
-		setCurrentIndex((prev) => (prev === 0 ? data.length - 1 : prev - 1));
-		} else if (info.offset.x < -swipeThreshold) {
-		// Swiped left
-		setCurrentIndex((prev) => (prev + 1) % data.length);
-		}
-	};
+	 const [direction, setDirection] = useState(1);
 
-	useEffect(() => {
-		const interval = setInterval(() => {
-			setCurrentIndex((prev) => (prev + 1) % data.length);
-		}, 5000);
-		return () => clearInterval(interval);
-	}, []);
+	const handleDragEnd = (
+    event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
+    const swipeThreshold = 50;
+    if (info.offset.x > swipeThreshold) {
+      // Swiped right - go backward
+      setDirection(-1);
+      setCurrentIndex((prev) => (prev === 0 ? data.length - 1 : prev - 1));
+    } else if (info.offset.x < -swipeThreshold) {
+      // Swiped left - go forward
+      setDirection(1);
+      setCurrentIndex((prev) => (prev + 1) % data.length);
+    }
+  };
+
+	 useEffect(() => {
+     const interval = setInterval(() => {
+       setDirection(1);
+       setCurrentIndex((prev) => (prev + 1) % data.length);
+     }, 5000);
+     return () => clearInterval(interval);
+   }, []);
+
+   const variants = {
+     enter: (direction: number) => ({
+       x: direction > 0 ? 300 : -300,
+       opacity: 0,
+     }),
+     center: {
+       x: 0,
+       opacity: 1,
+     },
+     exit: (direction: number) => ({
+       x: direction < 0 ? 300 : -300,
+       opacity: 0,
+     }),
+   };
 
 	return (
     <div className="w-full" id="howitworks">
@@ -109,9 +129,14 @@ export function HowItWorks() {
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               onDragEnd={handleDragEnd}
-              initial={{ opacity: 0, x: 300 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -300 }}
+              //   initial={{ opacity: 0, x: 300 }}
+              //   animate={{ opacity: 1, x: 0 }}
+              //   exit={{ opacity: 0, x: -300 }}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="absolute w-full px-4 h-full"
             >

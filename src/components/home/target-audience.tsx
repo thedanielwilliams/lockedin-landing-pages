@@ -1,6 +1,6 @@
 "use client";
 import { Header } from "../ui/header";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { FlowbiteArrowRight } from "../icons/flowbiteArrowRight";
@@ -49,180 +49,218 @@ export function TargetAudience() {
 	const [direction, setDirection] = useState(1);
 
 	useEffect(() => {
-		const interval = setInterval(() => {
-			setCurrentStep((prevStep) => (prevStep + 1) % steps.length);
-		}, 5000);
+    const interval = setInterval(() => {
+      setDirection(1); // Auto-advance always goes forward
+      setCurrentStep((prevStep) => (prevStep + 1) % steps.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
-		return () => clearInterval(interval);
-	}, []);
+  const handleDragEnd = (event: any, info: PanInfo) => {
+    const swipeThreshold = 50;
+    if (info.offset.x > swipeThreshold) {
+      // Swiped right - go backward
+      setDirection(-1);
+      setCurrentStep((prev) => (prev === 0 ? steps.length - 1 : prev - 1));
+    } else if (info.offset.x < -swipeThreshold) {
+      // Swiped left - go forward
+      setDirection(1);
+      setCurrentStep((prev) => (prev + 1) % steps.length);
+    }
+  };
+
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 300 : -300,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      y: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      x: direction < 0 ? 300 : -300,
+      opacity: 0,
+    }),
+  };
 
 	const currentStepData = steps[currentStep];
 
 	return (
-		<div className="w-full mt-8 overflow-x-hidden" id="howitworks">
-			<Header
-				title=" Built for Ambitious People"
-				description="Whether you're studying, working remotely, or pursuing creative projects, LockedIn connects you with like-minded individuals."
-			/>
+    <div className="w-full mt-8 overflow-x-hidden" id="howitworks">
+      <Header
+        title=" Built for Ambitious People"
+        description="Whether you're studying, working remotely, or pursuing creative projects, LockedIn connects you with like-minded individuals."
+      />
 
-			<div className="w-[93%] mx-auto max-lg:pb-6 py-12 max-lg:px-3">
-				<div className="w-full flex flex-col lg:flex-row justify-between items-center gap-6">
-					<div className="space-y-2 md:space-y-4 relative max-lg:hidden">
-						{/* Vertical line */}
-						{/* <div className="absolute left-[11px] top-0 h-full w-px bg-[#FFC727]"></div> */}
-						{steps.map((step, index) => (
-							<motion.div
-								key={step.id}
-								className="mt-6 md:mt-9 flex items-center gap-2 relative"
-								initial={{ opacity: 0, x: -10 }}
-								animate={{
-									opacity: currentStep === index ? 1 : 0.5,
-									x: 0,
-								}}
-								transition={{
-									duration: 0.5,
-									ease: "easeInOut",
-								}}
-								onClick={() => {
-									setDirection(currentStep > index ? -1 : 1);
-									setCurrentStep(index);
-								}}
-							>
-								{/* Arrow indicator */}
-								{currentStep === index && (
-									<motion.div
-										className="absolute -left-[1px]"
-										initial={{ scale: 0 }}
-										animate={{ scale: 1 }}
-										transition={{
-											type: "spring",
-											stiffness: 500,
-											damping: 15,
-										}}
-									>
-										<FlowbiteArrowRight color="#FFC727" fontSize={20} />
-									</motion.div>
-								)}
-								<motion.p
-									whileHover={{ scale: currentStep === index ? 1 : 1.05 }}
-									className={`font-semibold text-2xl ml-6 ${
-										currentStep === index ? "text-[#222221]" : "text-[#B1AEB7]"
-									}`}
-								>
-									{step.title}
-								</motion.p>
-							</motion.div>
-						))}
-					</div>
+      <div className="w-[93%] mx-auto max-lg:pb-6 py-12 max-lg:px-3">
+        <div className="w-full flex flex-col lg:flex-row justify-between items-center gap-6">
+          <div className="space-y-2 md:space-y-4 relative max-lg:hidden">
+            {/* Vertical line */}
+            {/* <div className="absolute left-[11px] top-0 h-full w-px bg-[#FFC727]"></div> */}
+            {steps.map((step, index) => (
+              <motion.div
+                key={step.id}
+                className="mt-6 md:mt-9 flex items-center gap-2 relative"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{
+                  opacity: currentStep === index ? 1 : 0.5,
+                  x: 0,
+                }}
+                transition={{
+                  duration: 0.5,
+                  ease: "easeInOut",
+                }}
+                onClick={() => {
+                  setDirection(currentStep > index ? -1 : 1);
+                  setCurrentStep(index);
+                }}
+              >
+                {/* Arrow indicator */}
+                {currentStep === index && (
+                  <motion.div
+                    className="absolute -left-[1px]"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 15,
+                    }}
+                  >
+                    <FlowbiteArrowRight color="#FFC727" fontSize={20} />
+                  </motion.div>
+                )}
+                <motion.p
+                  whileHover={{ scale: currentStep === index ? 1 : 1.05 }}
+                  className={`font-semibold text-2xl ml-6 ${
+                    currentStep === index ? "text-[#222221]" : "text-[#B1AEB7]"
+                  }`}
+                >
+                  {step.title}
+                </motion.p>
+              </motion.div>
+            ))}
+          </div>
 
-					<AnimatePresence mode="wait" custom={direction}>
-						<div className="w-[93%] lg:w-[480px] h-[207px] lg:h-[320px] bg-[#72D560] p-1 lg:p-3 rounded-2xl max-lg:hidden">
-							<motion.div
-								key={currentStepData.id}
-								initial={{ opacity: 0, y: -10 * direction }}
-								animate={{ opacity: 1, y: 0 }}
-								exit={{ opacity: 0, y: 10 * direction }}
-								transition={{
-									duration: 0.7,
-									ease: "easeInOut",
-								}}
-								className="relative max-lg:left-2 max-lg:top-1 w-full lg:w-[480px] h-[207px] lg:h-[320px] rounded-2xl"
-							>
-								<Image
-									width={480}
-									height={320}
-									src={currentStepData.image}
-									alt={currentStepData.title}
-									priority
-									className="w-full lg:w-[480px] h-[207px] lg:h-[320px] object-cover rounded-2xl"
-								/>
-							</motion.div>
-						</div>
-					</AnimatePresence>
+          <AnimatePresence mode="wait" custom={direction}>
+            <div className="w-[93%] lg:w-[480px] h-[207px] lg:h-[320px] bg-[#72D560] p-1 lg:p-3 rounded-2xl max-lg:hidden">
+              <motion.div
+                key={currentStepData.id}
+                initial={{ opacity: 0, y: -10 * direction }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 * direction }}
+                transition={{
+                  duration: 0.7,
+                  ease: "easeInOut",
+                }}
+                className="relative max-lg:left-2 max-lg:top-1 w-full lg:w-[480px] h-[207px] lg:h-[320px] rounded-2xl"
+              >
+                <Image
+                  width={480}
+                  height={320}
+                  src={currentStepData.image}
+                  alt={currentStepData.title}
+                  priority
+                  className="w-full lg:w-[480px] h-[207px] lg:h-[320px] object-cover rounded-2xl"
+                />
+              </motion.div>
+            </div>
+          </AnimatePresence>
 
-					<div className="max-w-[366px] max-lg:hidden">
-						<div className="h-12">
-							<AnimatePresence mode="wait">
-								<motion.p
-									key={currentStepData.id}
-									className="step-bottom-text text-[#222221] text-2xl font-medium"
-									initial={{ opacity: 0, y: 20 }}
-									animate={{ opacity: 1, y: 0 }}
-									exit={{ opacity: 0, y: -20 }}
-									transition={{
-										duration: 0.5,
-										ease: "easeInOut",
-									}}
-								>
-									{currentStepData.rightText}
-								</motion.p>
-							</AnimatePresence>
-						</div>
-					</div>
+          <div className="max-w-[366px] max-lg:hidden">
+            <div className="h-12">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={currentStepData.id}
+                  className="step-bottom-text text-[#222221] text-2xl font-medium"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{
+                    duration: 0.5,
+                    ease: "easeInOut",
+                  }}
+                >
+                  {currentStepData.rightText}
+                </motion.p>
+              </AnimatePresence>
+            </div>
+          </div>
 
-					{/* Image Slider with Text Overlay */}
-					<div className="relative w-full max-w-[580px] h-[207px] md:h-[320px] bg-[#72D560] p-2 rounded-2xl lg:hidden">
-						<AnimatePresence mode="sync" custom={direction}>
-							<motion.div
-								key={currentStepData.id}
-								initial={{ opacity: 0, x: 10 * direction, y: 10 }}
-								animate={{ opacity: 1, x: 10, y: 10 }}
-								exit={{ opacity: 0, x: -10 * direction }}
-								transition={{ duration: 0.3, ease: "easeInOut" }}
-								className="absolute inset-0 rounded-2xl overflow-hidden lg:hidden"
-							>
-								{/* Dark Overlay */}
-								<div className="absolute inset-0 bg-black/30 z-10" />
+          {/* Mobile Image Slider with Text Overlay */}
+          <div className="relative w-full max-w-[580px] mx-auto h-[227px] md:h-[340px] lg:hidden">
+            <div className="absolute  overflow-hidden z-0" />
 
-								{/* Image */}
-								<Image
-									fill
-									src={currentStepData.image}
-									alt={currentStepData.title}
-									priority
-									className="relative top-2 left-2 object-cover w-full h-[207px] md:h-[320px] rounded-2xl"
-								/>
+            <AnimatePresence mode="sync" custom={direction}>
+              <motion.div
+                key={currentStep}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                onDragEnd={handleDragEnd}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="absolute inset-0 bg-[#72D560] rounded-2xl inset-0 z-10"
+              >
+                {/* Image Container */}
+                <div className="relative left-2.5 top-2.5 h-full w-full">
+                  {/* Dark Overlay */}
+                  <div className="absolute inset-0 bg-black/30 z-10 rounded-2xl" />
 
-								{/* Text Overlay */}
-								<div className="absolute bottom-0 left-0 right-0 p-6 z-20">
-									<motion.div
-										initial={{ opacity: 0, y: 20 }}
-										animate={{ opacity: 1, y: 0 }}
-										transition={{
-											delay: 0.2,
-											duration: 0.6,
-											ease: "easeInOut",
-										}}
-										className="div"
-									>
-										<h2 className="text-[#F5F5F5] text-base font-semibold mb-2">
-											{currentStepData.title}
-										</h2>
-										<motion.p className="text-[#F3F2F2] text-sm font-thin ">
-											{currentStepData.rightText}
-										</motion.p>
-									</motion.div>
-								</div>
-							</motion.div>
-						</AnimatePresence>
-					</div>
+                  {/* Image */}
+                  <Image
+                    fill
+                    src={currentStepData.image}
+                    alt={currentStepData.title}
+                    priority
+                    className="relative z-[1] object-cover w-full h-[207px] md:h-[320px] rounded-2xl "
+                  />
+                </div>
 
-					{/* Bullet Indicators */}
-					<div className="mt-3 lg:hidden flex items-center justify-center gap-2">
-						{steps.map((step, index) => (
-							<button
-								key={index}
-								onClick={() => setCurrentStep(index)}
-								className={`rounded-full transition-colors ${
-									currentStepData.id === step.id
-										? "bg-[#72D560] w-2.5 h-2.5"
-										: "bg-[#D9D9D9] w-2 h-2"
-								}`}
-							/>
-						))}
-					</div>
-				</div>
-			</div>
-		</div>
-	);
+                {/* Text Overlay */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      delay: 0.2,
+                      duration: 0.6,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <h2 className="text-[#F5F5F5] text-base font-semibold mb-2">
+                      {currentStepData.title}
+                    </h2>
+                    <p className="text-[#F3F2F2] text-sm font-thin">
+                      {currentStepData.rightText}
+                    </p>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Bullet Indicators */}
+          <div className="mt-3 lg:hidden flex items-center justify-center gap-2">
+            {steps.map((step, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentStep(index)}
+                className={`rounded-full transition-colors ${
+                  currentStepData.id === step.id
+                    ? "bg-[#72D560] w-2.5 h-2.5"
+                    : "bg-[#D9D9D9] w-2 h-2"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
