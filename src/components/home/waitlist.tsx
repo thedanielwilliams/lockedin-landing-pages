@@ -95,57 +95,57 @@ export const Waitlist = () => {
 	};
 
 	return (
-		<>
-        <Toaster containerClassName="text-sm"/>
-			{isWaitlistOpen && (
-				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 bg-opacity-40">
-					<div className="bg-white w-[90%] mx-auto rounded-2xl p-8 md:py-12 max-w-md shadow-lg relative">
-						<button
-							type="button"
-							onClick={closeModal}
-							className="absolute top-4 right-4 text-gray-500 hover:text-black"
-							aria-label="Close modal"
-						>
-							<X size={20} />
-						</button>
-						<h2 className="text-xl font-semibold mb-4 text-center">
-							Join Waitlist
-						</h2>
-						<p className="text-center text-[#69666E] mb-6">
-							Be the first to know when we launch! Enter your details below to
-							join our waitlist.
-						</p>
-						<form
-							onSubmit={handleWaitlistSubmit}
-							className="flex flex-col gap-4"
-						>
-							<FloatingLabelInput
-								id="waitlist-name"
-								label="Your Name"
-								type="text"
-								value={waitlistName}
-								onChange={(e) => setWaitlistName(e.target.value)}
-								required
-							/>
-							<FloatingLabelInput
-								id="waitlist-email"
-								label="Your Email"
-								type="email"
-								value={waitlistEmail}
-								onChange={(e) => setWaitlistEmail(e.target.value)}
-								required
-							/>
-							<button
-								type="submit"
-								className="bg-[#72D560] flex items-center justify-center text-center text-sm font-medium gap-2 py-2 rounded-lg hover:opacity-90 transition-all"
-							>
-								{loading ? "Submitting..." : "Join Waitlist"}
-                                {loading && <Loader2 size={18} className="animate-spin"/>}
-							</button>
-						</form>
-					</div>
-				</div>
-			)}
-		</>
-	);
+    <>
+      <Toaster containerClassName="text-sm" />
+      {isWaitlistOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 bg-opacity-40">
+          <div className="bg-white w-[90%] mx-auto rounded-2xl p-8 md:py-12 max-w-md shadow-lg relative">
+            <button
+              type="button"
+              onClick={closeModal}
+              className="absolute top-4 right-4 text-gray-500 hover:text-black"
+              aria-label="Close modal"
+            >
+              <X size={20} />
+            </button>
+            <h2 className="text-xl font-semibold mb-4 text-center">
+              Join Waitlist 🎉
+            </h2>
+            <p className="text-center text-[#69666E] mb-6">
+              Be the first to know when we launch! Enter your details below to
+              join our waitlist.
+            </p>
+            <form
+              onSubmit={handleWaitlistSubmit}
+              className="flex flex-col gap-4"
+            >
+              <FloatingLabelInput
+                id="waitlist-name"
+                label="Your Name"
+                type="text"
+                value={waitlistName}
+                onChange={(e) => setWaitlistName(e.target.value)}
+                required
+              />
+              <FloatingLabelInput
+                id="waitlist-email"
+                label="Your Email"
+                type="email"
+                value={waitlistEmail}
+                onChange={(e) => setWaitlistEmail(e.target.value)}
+                required
+              />
+              <button
+                type="submit"
+                className="bg-[#72D560] flex items-center justify-center text-center text-sm font-medium gap-2 py-2 rounded-lg hover:opacity-90 transition-all"
+              >
+                {loading ? "Submitting..." : "Join Waitlist"}
+                {loading && <Loader2 size={18} className="animate-spin" />}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </>
+  );
 };

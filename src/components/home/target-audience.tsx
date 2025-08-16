@@ -205,7 +205,7 @@ export function TargetAudience() {
                 animate="center"
                 exit="exit"
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="absolute inset-0 bg-[#72D560] rounded-2xl inset-0 z-10"
+                className="absolute inset-0 bg-[#72D560] rounded-2xl z-10"
               >
                 {/* Image Container */}
                 <div className="relative left-2.5 top-2.5 h-full w-full">
