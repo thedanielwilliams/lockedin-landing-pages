@@ -45,13 +45,13 @@ export function Footer() {
                 </Link>
                 <Link
                   href="/privacy"
-                  className="hover:text-[#72D560] transition-colors"
+                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
                 >
                   Privacy Policy
                 </Link>
                 <Link
                   href="/data-deletion"
-                  className="hover:text-[#72D560] transition-colors"
+                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
                 >
                   Data Deletion
                 </Link>
