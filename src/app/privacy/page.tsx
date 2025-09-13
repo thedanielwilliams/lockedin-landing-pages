@@ -97,10 +97,10 @@ export default function PrivacyPolicy() {
         <p>
           For any questions regarding this Privacy Policy, please contact us at:{" "}
           <a
-            href="mailto:support@lockedinapp.com"
+            href="mailto:support@lockdedinpartner.com"
             className="text-[#72D560] underline"
           >
-            support@lockedinapp.com
+            support@lockdedinpartner.com
           </a>
         </p>
       </main>
