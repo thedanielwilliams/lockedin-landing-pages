@@ -13,7 +13,7 @@ const socialLinks = [
 ];
 
 export function Footer() {
-	return (
+  return (
     <footer className="mt-16 bg-[#72D560] py-8 md:py-12 lg:py-16 px-5 md:px-16 lg:px-24">
       <div className="w-full flex flex-col lg:flex-row gap-8 lg:gap-28">
         <ContactForm />
@@ -44,16 +44,16 @@ export function Footer() {
                   Engineering
                 </Link>
                 <Link
-                  href="#"
-                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
+                  href="/privacy"
+                  className="hover:text-[#72D560] transition-colors"
                 >
-                  Services
+                  Privacy Policy
                 </Link>
                 <Link
-                  href="#"
-                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
+                  href="/data-deletion"
+                  className="hover:text-[#72D560] transition-colors"
                 >
-                  Productions
+                  Data Deletion
                 </Link>
               </div>
             </div>
@@ -79,13 +79,13 @@ export function Footer() {
                   href="mailto:yourlockedinpartner@gmail.com"
                   className="transition-colors lg:hover:text-primaryPurple lg:hover:underline break-words"
                 >
-                 yourlockedinpartner@gmail.com
+                  yourlockedinpartner@gmail.com
                 </Link>
                 <Link
                   href="#"
                   className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
                 >
-                Nigeria
+                  Nigeria
                 </Link>
               </div>
             </div>
