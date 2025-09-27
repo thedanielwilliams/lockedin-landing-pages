@@ -51,6 +51,11 @@ export default function PrivacyPolicy() {
           <li>To apply discounts and rewards in the merchandise store</li>
           <li>To improve app performance and personalize your experience</li>
           <li>To send updates, notifications, or support messages</li>
+          <li>
+            To communicate with you via email, including reminders, newsletters,
+            promotional offers, and account-related updates (with your consent
+            where required)
+          </li>
         </ul>
 
         <h2 className="text-2xl font-semibold mt-8">3. Data Sharing</h2>

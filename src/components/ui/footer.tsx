@@ -29,6 +29,12 @@ export function Footer() {
                   href="#"
                   className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
                 >
+                  OS7K3L
+                </Link>
+                <Link
+                  href="#"
+                  className="transition-colors lg:hover:text-primaryPurple lg:hover:underline"
+                >
                   Company
                 </Link>
                 <Link
