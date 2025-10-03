@@ -18,7 +18,7 @@ export default function SessionCallback() {
     // Fallback: after 2s, redirect to download page
     const timer = setTimeout(() => {
       window.location.href =
-        "https://play.google.com/store/apps/details?id=com.lockedin.app";
+        "https://play.google.com/store/apps/details?id=com.lockedinpartner.lockedin";
     }, 2000);
 
     return () => clearTimeout(timer);
