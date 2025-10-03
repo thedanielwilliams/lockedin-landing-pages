@@ -11,18 +11,23 @@ export default function CheckoutCallback() {
   useEffect(() => {
     if (!status) return;
 
-    // Construct deep link to app
+    // Build deep link
     const appUrl = `lockedinapp://orders?status=${status}&reference=${
       reference || ""
     }`;
 
-    // Try opening the app
-    window.location.href = appUrl;
+    // Try opening via <a> instead of forcing window.location
+    const link = document.createElement("a");
+    link.href = appUrl;
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.click();
 
-    // Fallback: after 2s, redirect to download page
+    // Fallback after 2s → Play Store
     const timer = setTimeout(() => {
-      window.location.href =
-        "https://play.google.com/store/apps/details?id=com.lockedinpartner.lockedin";
+      window.location.replace(
+        "https://play.google.com/store/apps/details?id=com.lockedinpartner.lockedin"
+      );
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -36,7 +41,10 @@ export default function CheckoutCallback() {
         </h1>
         <p className="text-gray-500 mt-2">
           Redirecting you to the app. If nothing happens,{" "}
-          <a href="/download" className="text-green-600 underline font-medium">
+          <a
+            href="https://play.google.com/store/apps/details?id=com.lockedinpartner.lockedin"
+            className="text-green-600 underline font-medium"
+          >
             download the app here
           </a>
           .
