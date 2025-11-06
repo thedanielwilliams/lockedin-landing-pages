@@ -5,15 +5,15 @@ import { useState } from "react";
 import { useWaitlistModal } from "../home/waitlist-provider";
 
 export function Navbar() {
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [isModalOpen, setIsModalOpen] = useState(false);
-	const { openModal } = useWaitlistModal();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { openModal } = useWaitlistModal();
 
-	const toggleMenu = () => {
-		setIsMenuOpen(!isMenuOpen);
-	};
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-	return (
+  return (
     <>
       <nav className="bg-[#F7F7F7] w-[93%] lg:w-[85vw] mx-auto border border-[#ECECEC] py-3 px-6 md:p-4 rounded-2xl mt-5 md:mt-7">
         <div className="container mx-auto flex justify-between items-center">
@@ -61,13 +61,13 @@ export function Navbar() {
             </Link>
           </div> */}
 
-          <button
-            type="submit"
-            onClick={() => openModal("waitlist")}
+          <Link
+            href="https://play.google.com/store/apps/details?id=com.lockedinpartner.lockedin&hl=en"
+            target="_blank"
             className="max-lg:hidden bg-[#72D560] py-3 px-6 text-center flex items-center justify-center text-sm hover:opacity-90 transition-all duration-300 rounded-xl cursor-pointer"
           >
-            Join Waitlist
-          </button>
+            Download App
+          </Link>
 
           <button
             type="button"

@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
 import { useWaitlistModal } from "./waitlist-provider";
+import Link from "next/link";
 
 export function Hero() {
-	const { openModal } = useWaitlistModal();
-	return (
+  const { openModal } = useWaitlistModal();
+  return (
     <>
       <div className="mt-8 mb-14 md:mb-20 relative w-[93%] mx-auto max-lg:pb-8 py-16 bg-[#F0F0F0] flex flex-col items-center justify-center overflow-hidden">
         <div
@@ -83,13 +84,13 @@ export function Hero() {
             >
               Start now <ArrowRight className="max-md:w-5" />
             </Link> */}
-            <button
-              type="submit"
-              onClick={() => openModal("waitlist")}
+            <Link
+              href="https://play.google.com/store/apps/details?id=com.lockedinpartner.lockedin&hl=en"
+              target="_blank"
               className="bg-[#72D560] py-3 px-6 text-center font-medium flex items-center justify-center text-xs md:text-sm hover:opacity-90 transition-all duration-300 rounded-xl cursor-pointer"
             >
-              Join Waitlist
-            </button>
+              Download App
+            </Link>
           </div>
         </div>
 
