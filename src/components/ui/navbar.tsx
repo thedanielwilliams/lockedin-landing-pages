@@ -146,15 +146,16 @@ export function Navbar() {
 								Start now
 							</Link>
 						</div> */}
-            <button
+            <Link
+              href="https://play.google.com/store/apps/details?id=com.lockedinpartner.lockedin&hl=en"
+              target="_blank"
               onClick={() => {
-                openModal("waitlist");
                 toggleMenu();
               }}
               className="bg-[#5CBE4A] mx-8 mt-16 text-black py-4 px-6 text-center text-lg font-medium rounded-xl hover:opacity-90 transition-all duration-200 hover:scale-105"
             >
-              Join Waitlist
-            </button>
+              Download App
+            </Link>
           </div>
         </div>
       </div>
